@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -7,10 +7,35 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../../hooks/useGlobalContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase/FirebaseConfig";
 
 export default function AdminLogin() {
   const { mode } = useGlobalContext();
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  //* Login Function
+  const login = async () => {
+    if (!email || !password) {
+      return toast.error("Fill all required fields");
+    }
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      toast.success("Login Success");
+      localStorage.setItem("admin", JSON.stringify(result));
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error("Login Failed");
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -57,14 +82,26 @@ export default function AdminLogin() {
           <form className=" flex flex-col gap-4">
             {/* First Input  */}
             <div>
-              <Input type="email" label="Email" name="email" />
+              <Input
+                type="email"
+                label="Email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             {/* Second Input  */}
             <div>
-              <Input type="password" label="Password" />
+              <Input
+                type="password"
+                label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             {/* Login Button  */}
             <Button
+              onClick={login}
               style={{
                 background: mode === "dark" ? "rgb(226, 232, 240)" : "#FF5733",
                 color:

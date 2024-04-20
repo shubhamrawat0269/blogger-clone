@@ -16,6 +16,8 @@ export default function Nav() {
   const [openNav, setOpenNav] = useState(false);
   const { mode, toggleMode } = useGlobalContext();
 
+  const admin = localStorage.getItem("admin");
+
   return (
     <>
       {/* Navbar  */}
@@ -44,23 +46,27 @@ export default function Nav() {
 
             {/* Admin Profile Pic */}
             <div>
-              <Link to={"/dashboard"}>
-                <div className="">
-                  <Avatar
-                    key={1}
-                    src={"images/profile.png"}
-                    alt="avatar"
-                    withBorder={true}
-                    className="p-0.5 text-red-500 w-10 h-10"
-                    style={{
-                      border:
-                        mode === "dark"
-                          ? "2px solid rgb(226, 232, 240)"
-                          : "2px solid rgb(30, 41, 59)",
-                    }}
-                  />
-                </div>
-              </Link>
+              {admin ? (
+                <Link to={"/dashboard"}>
+                  <div className="">
+                    <Avatar
+                      key={1}
+                      src={"images/profile.png"}
+                      alt="avatar"
+                      withBorder={true}
+                      className="p-0.5 text-red-500 w-10 h-10"
+                      style={{
+                        border:
+                          mode === "dark"
+                            ? "2px solid rgb(226, 232, 240)"
+                            : "2px solid rgb(30, 41, 59)",
+                      }}
+                    />
+                  </div>
+                </Link>
+              ) : (
+                ""
+              )}
             </div>
 
             {/* dark And Light Button */}

@@ -1,11 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import Layout from "../../../components/layout/Layout";
 import { useGlobalContext } from "../../../hooks/useGlobalContext";
 
 function Dashboard() {
   const { mode } = useGlobalContext();
+  const navigate = useNavigate();
+
+  //* Logout Function
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <Layout>
       <div className="py-10">
@@ -35,13 +43,13 @@ function Dashboard() {
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              rawatshubam269@gmail.com
+              rawatshubam1207@gmail.com
             </h2>
             <h2
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              <span>Total Blog : </span> 12
+              <span>Total Blog : </span> 1
             </h2>
             <div className=" flex gap-2 mt-2">
               <Link to={"/createblog"}>
@@ -69,6 +77,7 @@ function Dashboard() {
                         : "rgb(30, 41, 59)",
                     color: mode === "dark" ? "black" : "white",
                   }}
+                  onClick={logout}
                   className="px-8 py-2"
                 >
                   Logout

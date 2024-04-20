@@ -8,6 +8,7 @@ import Navbar from "./navbar/Navbar";
 import SearchDialog from "./searchDialog/SearchDialog";
 import ShareDialogBox from "./shareDialogBox/ShareDialogBox";
 import Logo from "./logo/Logo";
+import ProtectedRouteForAdmin from "./ProtectedRoute/ProtectedRouteForAdmin";
 
 export {
   Logo,
@@ -20,4 +21,5 @@ export {
   Navbar,
   SearchDialog,
   ShareDialogBox,
+  ProtectedRouteForAdmin,
 };

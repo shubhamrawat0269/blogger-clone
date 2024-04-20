@@ -17,6 +17,7 @@ import {
   Home,
   Nopage,
 } from "./pages";
+import { ProtectedRouteForAdmin } from "./components";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +42,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/createblog",
-    element: <CreateBlog />,
+    // element: <CreateBlog />,
+    element: (
+      <ProtectedRouteForAdmin>
+        <CreateBlog />
+      </ProtectedRouteForAdmin>
+    ),
     errorElement: <Nopage />,
   },
   {
@@ -51,7 +57,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    // element: <Dashboard />,
+    element: (
+      <ProtectedRouteForAdmin>
+        <Dashboard />
+      </ProtectedRouteForAdmin>
+    ),
     errorElement: <Nopage />,
   },
 ]);
