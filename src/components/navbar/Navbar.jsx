@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
 
 import { Navbar, IconButton, Avatar, Collapse } from "@material-tailwind/react";
 import { useGlobalContext } from "../../hooks/useGlobalContext";
@@ -11,7 +10,7 @@ import {
   MenuIcon,
   CrossIcon,
 } from "../../assets/svgs/ToggleThemeBtn";
-import { Logo } from "../index";
+import { Logo, SearchDialog, ShareDialogBox } from "../index";
 
 export default function Nav() {
   const [openNav, setOpenNav] = useState(false);
@@ -36,10 +35,11 @@ export default function Nav() {
             </div>
 
             <div>
-              <AiOutlineSearch size={20} color="white" />
+              {/* <AiOutlineSearch size={20} color="white" /> */}
+              <SearchDialog />
             </div>
             <div className="hidden lg:block">
-              <AiOutlineShareAlt size={20} color="white" />
+              <ShareDialogBox />
             </div>
 
             {/* Admin Profile Pic */}
