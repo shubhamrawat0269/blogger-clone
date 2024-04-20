@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     errorElement: <Nopage />,
   },
   {
-    path: "/allblog",
+    path: "/allblogs",
     element: <AllBlogs />,
     errorElement: <Nopage />,
   },
