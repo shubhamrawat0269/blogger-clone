@@ -1,10 +1,11 @@
 import React from "react";
-import { HeroSection, Layout } from "../../components";
+import { BlogPostCard, HeroSection, Layout } from "../../components";
 
 function Home() {
   return (
     <Layout>
       <HeroSection />
+      <BlogPostCard />
     </Layout>
   );
 }
