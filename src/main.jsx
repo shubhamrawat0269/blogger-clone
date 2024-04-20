@@ -13,13 +13,14 @@ import {
   Blog,
   BlogInfo,
   Dashboard,
+  Home,
   Nopage,
 } from "./pages";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
     errorElement: <Nopage />,
   },
   {
