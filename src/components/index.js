@@ -7,8 +7,10 @@ import Loader from "./loader/Loader";
 import Navbar from "./navbar/Navbar";
 import SearchDialog from "./searchDialog/SearchDialog";
 import ShareDialogBox from "./shareDialogBox/ShareDialogBox";
+import Logo from "./logo/Logo";
 
 export {
+  Logo,
   BlogPostCard,
   Comment,
   Footer,

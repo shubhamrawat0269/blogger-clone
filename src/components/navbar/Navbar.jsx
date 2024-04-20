@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
 
-import {
-  Navbar,
-  Typography,
-  IconButton,
-  Avatar,
-  Collapse,
-} from "@material-tailwind/react";
+import { Navbar, IconButton, Avatar, Collapse } from "@material-tailwind/react";
 import { useGlobalContext } from "../../hooks/useGlobalContext";
 import { NavList } from "./NavList";
 import {
@@ -17,6 +11,7 @@ import {
   MenuIcon,
   CrossIcon,
 } from "../../assets/svgs/ToggleThemeBtn";
+import { Logo } from "../index";
 
 export default function Nav() {
   const [openNav, setOpenNav] = useState(false);
@@ -32,18 +27,7 @@ export default function Nav() {
         {/* Desktop View Of Navbar  */}
         <div className="flex items-center justify-between text-blue-gray-900">
           {/* Home Page Link  */}
-          <Link to={"/"}>
-            <Typography
-              as="a"
-              className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
-              style={{ color: mode === "dark" ? "white" : "white" }}
-            >
-              {/* Logo Image Here  */}
-              <img className=" w-10 h-10 " src="images/logo.png" />
-              {/* Logo Text Added here  */}
-              <span>Comuner</span>
-            </Typography>
-          </Link>
+          <Logo />
 
           {/* All Items  */}
           <div className="flex items-center gap-4">
