@@ -12,6 +12,7 @@ import {
   AllBlogs,
   Blog,
   BlogInfo,
+  CreateBlog,
   Dashboard,
   Home,
   Nopage,
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
   {
     path: "/bloginfo/:id",
     element: <BlogInfo />,
+    errorElement: <Nopage />,
+  },
+  {
+    path: "/createblog",
+    element: <CreateBlog />,
     errorElement: <Nopage />,
   },
   {
