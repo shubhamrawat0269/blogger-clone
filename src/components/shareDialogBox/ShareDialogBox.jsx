@@ -29,7 +29,7 @@ export default function ShareDialogBox() {
         open={open}
         handler={handleOpen}
         style={{
-          background: mode === "light" ? "#2f3542" : "#2f3542",
+          background: mode === "light" ? "#FF5733" : "#2f3542",
           color: mode === "dark" ? "white" : "black",
         }}
       >
@@ -88,10 +88,6 @@ export default function ShareDialogBox() {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className=" text-center">
-            <h1 className=" text-gray-600">Powered By Devknus</h1>
           </div>
         </DialogBody>
       </Dialog>
