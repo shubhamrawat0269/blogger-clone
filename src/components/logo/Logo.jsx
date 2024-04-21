@@ -13,7 +13,7 @@ const Logo = () => {
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
         {/* Logo Image Here  */}
-        <img className=" w-10 h-10 " src="images/logo.png" />
+        <img className="w-10 h-10" src="images/logo.png" />
         {/* Logo Text Added here  */}
         <span>Comuner</span>
       </Typography>
