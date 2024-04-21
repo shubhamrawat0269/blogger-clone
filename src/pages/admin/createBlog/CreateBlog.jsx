@@ -1,17 +1,66 @@
+import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { LuMoveLeft } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@material-tailwind/react";
 import { useGlobalContext } from "../../../hooks/useGlobalContext";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { fireDb, storage } from "../../../firebase/FirebaseConfig";
 
 function CreateBlog() {
+  const navigate = useNavigate();
   const { mode } = useGlobalContext();
-
-  const [blogs, setBlogs] = useState("");
   const [thumbnail, setthumbnail] = useState();
-
   const [text, settext] = useState("");
+  const [blogs, setBlogs] = useState({
+    title: "",
+    category: "",
+    content: "",
+    time: Timestamp.now(),
+  });
+
+  const addPost = async () => {
+    if (
+      blogs.title === "" ||
+      blogs.category === "" ||
+      blogs.content === "" ||
+      blogs.thumbnail === ""
+    ) {
+      toast.error("Please Fill All Fields");
+    }
+    // console.log(blogs.content)
+    uploadImage();
+  };
+
+  function uploadImage() {
+    if (!thumbnail) return;
+    const imageRef = ref(storage, `blogimage/${thumbnail.name}`);
+    uploadBytes(imageRef, thumbnail).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        const productRef = collection(fireDb, "blogPost");
+        try {
+          addDoc(productRef, {
+            blogs,
+            thumbnail: url,
+            time: Timestamp.now(),
+            date: new Date().toLocaleString("en-US", {
+              month: "short",
+              day: "2-digit",
+              year: "numeric",
+            }),
+          });
+          navigate("/dashboard");
+          toast.success("Post Added Successfully");
+        } catch (error) {
+          toast.error(error);
+          console.log(error);
+        }
+      });
+    });
+  }
+
   // console.log("Value: ");
   // console.log("text: ", text);
 
@@ -93,6 +142,8 @@ function CreateBlog() {
               background: mode === "dark" ? "#dcdde1" : "#e88c3c",
             }}
             name="title"
+            value={blogs.title}
+            onChange={(e) => setBlogs({ ...blogs, title: e.target.value })}
           />
         </div>
 
@@ -109,6 +160,8 @@ function CreateBlog() {
               background: mode === "dark" ? "#dcdde1" : "#e88c3c",
             }}
             name="category"
+            value={blogs.category}
+            onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
           />
         </div>
 
@@ -116,7 +169,7 @@ function CreateBlog() {
         <Editor
           apiKey="9jo3lu73p1xbfqaw6jvgmsbrmy7qr907nqeafe1wbek6os9d"
           onEditorChange={(newValue, editor) => {
-            setBlogs({ blogs, content: newValue });
+            setBlogs({ ...blogs, content: newValue });
             settext(editor.getContent({ format: "text" }));
           }}
           onInit={(evt, editor) => {
@@ -127,6 +180,7 @@ function CreateBlog() {
         {/* 5. Submit Button  */}
         <Button
           className=" w-full mt-5"
+          onClick={addPost}
           style={{
             background: mode === "dark" ? "rgb(226, 232, 240)" : "#e88c3c",
             color: mode === "dark" ? "rgb(30, 41, 59)" : "#fff",
