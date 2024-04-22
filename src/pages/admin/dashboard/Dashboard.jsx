@@ -5,7 +5,7 @@ import Layout from "../../../components/layout/Layout";
 import { useGlobalContext } from "../../../hooks/useGlobalContext";
 
 function Dashboard() {
-  const { mode, getAllBlog } = useGlobalContext();
+  const { mode, getAllBlog, deleteBlogs } = useGlobalContext();
   const navigate = useNavigate();
 
   //* Logout Function
@@ -168,7 +168,7 @@ function Dashboard() {
                 {getAllBlog.length > 0 ? (
                   <>
                     {getAllBlog.map((item, index) => {
-                      const { thumbnail, date } = item;
+                      const { thumbnail, date, id } = item;
                       return (
                         <tbody key={index}>
                           <tr
@@ -231,6 +231,7 @@ function Dashboard() {
                             </td>
                             {/* Delete Blog  */}
                             <td
+                              onClick={() => deleteBlogs(id)}
                               style={{
                                 color: mode === "dark" ? "white" : "black",
                               }}

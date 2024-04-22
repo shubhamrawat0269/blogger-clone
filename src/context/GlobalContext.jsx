@@ -1,6 +1,14 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { fireDb } from "../firebase/FirebaseConfig";
+import toast from "react-hot-toast";
 
 const GlobalContext = createContext();
 
@@ -42,6 +50,17 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
+  // Blog Delete Function
+  const deleteBlogs = async (id) => {
+    try {
+      await deleteDoc(doc(fireDb, "blogPost", id));
+      getAllBlogs();
+      toast.success("Blogs deleted successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getAllBlogs();
   }, []);
@@ -54,6 +73,7 @@ const GlobalProvider = ({ children }) => {
     loading,
     setloading,
     getAllBlog,
+    deleteBlogs,
   };
   return (
     <GlobalContext.Provider value={contexts}>{children}</GlobalContext.Provider>
