@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { fireDb } from "../../firebase/FirebaseConfig";
 import Layout from "../../components/layout/Layout";
 import Loader from "../../components/loader/Loader";
 import { useGlobalContext } from "../../hooks/useGlobalContext";
+import { Comment } from "../../components";
+import toast from "react-hot-toast";
 
 const BlogInfo = () => {
   const { mode, setloading, loading } = useGlobalContext();
   const params = useParams();
   const [getBlogs, setGetBlogs] = useState();
+  const [fullName, setFullName] = useState("");
+  const [commentText, setCommentText] = useState("");
+
+  const [allComment, setAllComment] = useState([]);
 
   const getAllBlogs = async () => {
     setloading(true);
@@ -27,6 +42,30 @@ const BlogInfo = () => {
     }
   };
 
+  const getcomment = async () => {
+    try {
+      const q = query(
+        collection(fireDb, "blogPost/" + `${params.id}/` + "comment/"),
+        orderBy("time")
+      );
+      const data = onSnapshot(q, (QuerySnapshot) => {
+        let productsArray = [];
+        QuerySnapshot.forEach((doc) => {
+          productsArray.push({ ...doc.data(), id: doc.id });
+        });
+        setAllComment(productsArray);
+        // console.log(productsArray);
+      });
+      return () => data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getcomment();
+  }, []);
+
   useEffect(() => {
     getAllBlogs();
     window.scrollTo(0, 0);
@@ -36,6 +75,30 @@ const BlogInfo = () => {
   function createMarkup(c) {
     return { __html: c };
   }
+
+  const addComment = async () => {
+    const commentRef = collection(
+      fireDb,
+      "blogPost/" + `${params.id}/` + "comment"
+    );
+    try {
+      await addDoc(commentRef, {
+        fullName,
+        commentText,
+        time: Timestamp.now(),
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+      });
+      toast.success("Comment Add Successfully");
+      setFullName("");
+      setCommentText("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Layout>
@@ -152,6 +215,15 @@ const BlogInfo = () => {
             </div>
           )}
         </div>
+
+        <Comment
+          addComment={addComment}
+          commentText={commentText}
+          setcommentText={setCommentText}
+          allComment={allComment}
+          fullName={fullName}
+          setFullName={setFullName}
+        />
       </section>
     </Layout>
   );
